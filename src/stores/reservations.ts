@@ -1,12 +1,25 @@
 import type { Service } from '@/types/types';
 import { defineStore } from 'pinia';
-import { computed, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 
 export const useReservations = defineStore('reservations', () => {
-  
+
   const selectedItems = ref<Service[]>([])
 
   const date = ref('')
+
+  const hours = ref<string[]>([])
+  const time = ref('')
+
+  onMounted(() => {
+    const startHour = 10
+
+    const endHour = 19
+
+    for (let hour = startHour; hour <= endHour; hour++) {
+      hours.value.push((hour + ':00'))
+    }
+  })
 
   //TODO: limit to 2 services per reservation
   const toggleReservation = (service: Service) => {
@@ -25,11 +38,19 @@ export const useReservations = defineStore('reservations', () => {
     return selectedItems.value.reduce((acc, item) => acc + item.price, 0)
   })
 
+  const selectHour = (hour: string) => {
+    time.value = hour
+    console.log(time.value);
+  }
+
   return {
     date,
     toggleReservation,
     selectedItems,
     isServiceSelected,
-    total
+    total,
+    hours,
+    time,
+    selectHour
   }
 })
