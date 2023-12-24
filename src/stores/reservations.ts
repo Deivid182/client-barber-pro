@@ -43,6 +43,21 @@ export const useReservations = defineStore('reservations', () => {
     console.log(time.value);
   }
 
+  const isReservationValid = computed(() => {
+    return selectedItems.value.length && time.value.length && date.value.length
+  })
+
+  const createReservation = () => {
+    const reservation = {
+      date: date.value,
+      time: time.value,
+      services: selectedItems.value.map(item => item._id),
+      total: total.value
+    }
+
+    console.log(reservation);
+  }
+
   return {
     date,
     toggleReservation,
@@ -51,6 +66,8 @@ export const useReservations = defineStore('reservations', () => {
     total,
     hours,
     time,
-    selectHour
+    selectHour,
+    isReservationValid,
+    createReservation
   }
 })

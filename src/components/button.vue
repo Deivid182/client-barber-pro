@@ -2,9 +2,9 @@
 <script setup lang="ts">
 interface ButtonProps {
   type: 'button' | 'submit' | 'reset' | undefined
-  fullWidth?: boolean
+  fullWidth?: boolean 
   flex1?: boolean
-  disabled?: boolean
+  disabled?: boolean | number
   ghost?: boolean
   secondary?: boolean
   danger?: boolean

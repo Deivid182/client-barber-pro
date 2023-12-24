@@ -22,11 +22,11 @@ console.log(route.name);
     :to="{name: to}"
     :class="[
       fullWidth ? 'flex-1' : '',
-      primary ? 'bg-green-500 text-white' : '',
+      primary ? 'bg-green-500 text-white focus-visible:outline-green-600' : '',
       isBig ? 'p-4 text-xl' : 'p-2 text-sm',
-      route.name === to && secondary ? 'bg-sky-600 text-white' : 'text-blue-500 bg-white hover:text-white hover:bg-blue-500',
+      route.name === to && secondary ? 'bg-sky-600 text-white' : secondary && 'text-blue-500 bg-white hover:text-white hover:bg-blue-500',
     ]"
-    class="focus-visible:outline-sky-600 text-center transition-all duration-200 p-2 rounded-md"
+    class="text-center transition-all duration-200 p-2 rounded-md"
   >
     <slot />
   </RouterLink>

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { formatPrice } from '@/helpers'
 import { useReservations } from '@/stores/reservations'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import VueTailwindDatepicker from 'vue-tailwind-datepicker'
 import Button from '../components/button.vue'
 import Heading from '../components/heading.vue'
@@ -9,9 +9,19 @@ import SelectedService from '../components/selected-service.vue'
 
 const reservations = useReservations()
 
+const isMdDevice = computed(() => {
+  return window.innerWidth >= 768
+})
+
 const formatter = ref({
   date: 'DD/MM/YYYY',
 })
+
+
+const disableDate = (date: Date) => {
+  const today = new Date()
+  return date < today || date.getMonth() > today.getMonth() + 1 || [0, 6].includes(date.getDay()) 
+}
 
 </script>
 <template>
@@ -37,7 +47,8 @@ const formatter = ref({
       <div class="max-sm:flex-col flex lg:items-center  gap-5">
         <div class="lg:w-auto bg-white flex justify-center rounded-lg">
           <VueTailwindDatepicker 
-            as-single 
+            as-single
+            :disable-date="disableDate"
             no-input
             :formatter="formatter"
             v-model="reservations.date"
@@ -54,6 +65,15 @@ const formatter = ref({
             {{ hour }}
           </button>
         </div>
+      </div>
+      <div class="flex justify-end">
+        <Button
+          type="button"
+          :disabled="!reservations.isReservationValid"
+          @onClick="reservations.createReservation"
+        >
+          Confirm Reservation
+        </Button>        
       </div>
 
     </div>
